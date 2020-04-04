@@ -1,22 +1,27 @@
-"""Runs a simulation to assign drivers to riders within the 2018 Boston Lyft/Uber data set """
+"""Runs a simulation to assign drivers to riders within the 2018 Boston Lyft/Uber data set
+    import: os, random, list_available_drivers, assign_driver, from efficient_algorithnms import binary_search
+    import: pandas as pd"""
 import os
-import pandas as pd
 import random
-from efficient_algorithms import binary_search
 import list_available_drivers
 import assign_driver
+from efficient_algorithms import binary_search
+import pandas as pd
 
 
-def import_data(filename):
-    os.chdir('C:/Users/Joshua/Desktop/TO 618 Temp/supply simulation/')
-    path = 'C:/Users/Joshua/Desktop/TO 618 Temp/supply simulation/'
+def import_data(path, filename):
+    os.chdir(path)
     df = pd.read_csv(path + filename)
     return df
 
+
 def main():
-    main_data = import_data('boston_simulation.csv')
-    driver_pool = import_data('driver_pool.csv')
-    time_distance = import_data('time_distance.csv')
+    path = input('Input the path name to the files here (C:/user/folder/): ')
+    final_path_main_data = input('Input the final path and path name for the main data: ')
+    final_path_driver_pool = input('Input the final path and path name for the simulated driver pool: ')
+    main_data = import_data(path, 'boston_simulation.csv')
+    driver_pool = import_data(path, 'driver_pool.csv')
+    time_distance = import_data(path, 'time_distance.csv')
 
     main_data['emp_id'] = main_data['emp_id'].astype('object')
     driver_pool['destination'] = driver_pool['destination'].astype('object')
@@ -46,8 +51,8 @@ def main():
             starting_up = starting_point + 1
 
             # Drop off any passengers and return driver status to available
-            list_available_drivers.drop_off_riders(driver_pool := driver_pool,
-                                                   current_time := epoch_elapsing)
+            list_available_drivers.drop_off_riders(driver_pool=driver_pool,
+                                                   current_time=epoch_elapsing)
 
             # Service previous requests that have not been filled first
             if len(remaining_requests) > 0:
@@ -84,27 +89,27 @@ def main():
 
                         # Sort/return time list of driver current location to customer pick up; return the time[0]
                         # and index[1]
-                        time_list = list_available_drivers.time_list(driver_list := driver_list,
-                                                                     cab_type := cab_type,
-                                                                     cab_product := cab_product,
-                                                                     time_distance_dict := time_distance_dict,
-                                                                     pickup_location := pickup_location)
+                        time_list = list_available_drivers.time_list(driver_list=driver_list,
+                                                                     cab_type=cab_type,
+                                                                     cab_product=cab_product,
+                                                                     time_distance_dict=time_distance_dict,
+                                                                     pickup_location=pickup_location)
 
                         # If there are any available drivers, apply the first in the sorted time_list (by min time to
                         # pick up rider) time_list = [time, driver_list index]
-                        assign_driver.assign_driver(time_list := time_list,
-                                                    driver_list := driver_list,
-                                                    time_distance_dict := time_distance_dict,
-                                                    pickup_location := pickup_location,
-                                                    dropoff_location := dropoff_location,
-                                                    main_data := main_data,
-                                                    driver_pool := driver_pool,
-                                                    indx_main_data := indx_remaining_request,
-                                                    epoch_elapsing := epoch_elapsing,
-                                                    remaining_requests := remaining_requests,
-                                                    cab_type := cab_type,
-                                                    cab_product := cab_product,
-                                                    rider_id := rider_id,
+                        assign_driver.assign_driver(time_list=time_list,
+                                                    driver_list=driver_list,
+                                                    time_distance_dict=time_distance_dict,
+                                                    pickup_location=pickup_location,
+                                                    dropoff_location=dropoff_location,
+                                                    main_data=main_data,
+                                                    driver_pool=driver_pool,
+                                                    indx_main_data=indx_remaining_request,
+                                                    epoch_elapsing=epoch_elapsing,
+                                                    remaining_requests=remaining_requests,
+                                                    cab_type=cab_type,
+                                                    cab_product=cab_product,
+                                                    rider_id=rider_id,
                                                     analyzing_req=True)
 
             # Start at the indexed starting point and decrease the index by 1 until the
@@ -123,27 +128,27 @@ def main():
                 rider_id = main_data.iloc[starting_point][10]
 
                 # Sort/return time list of driver current location to customer pick up; return the time[0] and index[1]
-                time_list = list_available_drivers.time_list(driver_list := driver_list,
-                                                             cab_type := cab_type,
-                                                             cab_product := cab_product,
-                                                             time_distance_dict := time_distance_dict,
-                                                             pickup_location := pickup_location)
+                time_list = list_available_drivers.time_list(driver_list=driver_list,
+                                                             cab_type=cab_type,
+                                                             cab_product=cab_product,
+                                                             time_distance_dict=time_distance_dict,
+                                                             pickup_location=pickup_location)
 
                 # If there are any available drivers, apply the first in the sorted time_list (by min time to pick
                 # up rider) time_list = [time, driver_list index]
-                assign_driver.assign_driver(time_list := time_list,
-                                            driver_list := driver_list,
-                                            time_distance_dict := time_distance_dict,
-                                            pickup_location := pickup_location,
-                                            dropoff_location := dropoff_location,
-                                            main_data := main_data,
-                                            driver_pool := driver_pool,
-                                            indx_main_data := starting_point,
-                                            epoch_elapsing := epoch_elapsing,
-                                            remaining_requests := remaining_requests,
-                                            cab_type := cab_type,
-                                            cab_product := cab_product,
-                                            rider_id := rider_id,
+                assign_driver.assign_driver(time_list=time_list,
+                                            driver_list=driver_list,
+                                            time_distance_dict=time_distance_dict,
+                                            pickup_location=pickup_location,
+                                            dropoff_location=dropoff_location,
+                                            main_data=main_data,
+                                            driver_pool=driver_pool,
+                                            indx_main_data=starting_point,
+                                            epoch_elapsing=epoch_elapsing,
+                                            remaining_requests=remaining_requests,
+                                            cab_type=cab_type,
+                                            cab_product=cab_product,
+                                            rider_id=rider_id,
                                             analyzing_req=False)
 
                 starting_point -= 1
@@ -164,27 +169,27 @@ def main():
                 rider_id = main_data.iloc[starting_point][10]
 
                 # Sort/return time list of driver current location to customer pick up; return the time[0] and index[1]
-                time_list = list_available_drivers.time_list(driver_list := driver_list,
-                                                             cab_type := cab_type,
-                                                             cab_product := cab_product,
-                                                             time_distance_dict := time_distance_dict,
-                                                             pickup_location := pickup_location)
+                time_list = list_available_drivers.time_list(driver_list=driver_list,
+                                                             cab_type=cab_type,
+                                                             cab_product=cab_product,
+                                                             time_distance_dict=time_distance_dict,
+                                                             pickup_location=pickup_location)
 
                 # If there are any available drivers, apply the first in the sorted time_list (by min time to pick
                 # up rider) time_list = [time, driver_list index]
-                assign_driver.assign_driver(time_list := time_list,
-                                            driver_list := driver_list,
-                                            time_distance_dict := time_distance_dict,
-                                            pickup_location := pickup_location,
-                                            dropoff_location := dropoff_location,
-                                            main_data := main_data,
-                                            driver_pool := driver_pool,
-                                            indx_main_data := starting_up,
-                                            epoch_elapsing := epoch_elapsing,
-                                            remaining_requests := remaining_requests,
-                                            cab_type := cab_type,
-                                            cab_product := cab_product,
-                                            rider_id := rider_id,
+                assign_driver.assign_driver(time_list=time_list,
+                                            driver_list=driver_list,
+                                            time_distance_dict=time_distance_dict,
+                                            pickup_location=pickup_location,
+                                            dropoff_location=dropoff_location,
+                                            main_data=main_data,
+                                            driver_pool=driver_pool,
+                                            indx_main_data=starting_up,
+                                            epoch_elapsing=epoch_elapsing,
+                                            remaining_requests=remaining_requests,
+                                            cab_type=cab_type,
+                                            cab_product=cab_product,
+                                            rider_id=rider_id,
                                             analyzing_req=False)
 
                 starting_up += 1
@@ -194,8 +199,8 @@ def main():
 
     print('Final count of remaining requests:', len(remaining_requests))
     print('Remaining requests:', remaining_requests)
-    main_data.to_csv('C:/Users/Joshua/Desktop/TO 618 Temp/supply simulation/main_data.csv', index=False)
-    driver_pool.to_csv('C:/Users/Joshua/Desktop/TO 618 Temp/supply simulation/simulated_driver_pool.csv', index=False)
+    main_data.to_csv(final_path_main_data, index=False)
+    driver_pool.to_csv(final_path_driver_pool, index=False)
 
 
 if __name__ == '__main__':

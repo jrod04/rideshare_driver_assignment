@@ -1,4 +1,5 @@
-"""Assigns the closest, available driver to the rider"""
+"""Assigns the closest, available driver to the rider;
+    import random"""
 import random
 
 
